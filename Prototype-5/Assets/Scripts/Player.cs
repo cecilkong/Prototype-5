@@ -17,6 +17,7 @@ public class Player : MonoBehaviour
     private float coyoteTime = 0.1f;
     private float coyoteTimeCounter;
 
+    [SerializeField] private float fallMultiplier = 2f;
     private float jumpBufferTime = 0.05f;
     private float jumpBufferCounter;
 
@@ -40,21 +41,20 @@ public class Player : MonoBehaviour
     void FixedUpdate()
     {
         // Left/Right Movement
-        if (Input.GetKey("d") || Input.GetKey("right"))
+        rb.velocity = new Vector2(runSpeed, rb.velocity.y);
+       
+        // Jumping
+        if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
         {
-            rb.velocity = new Vector2(runSpeed,rb.velocity.y);
-        }
-        else if (Input.GetKey("a") || Input.GetKey("left"))
-        {
-            rb.velocity = new Vector2(-runSpeed,rb.velocity.y);
-        }
-        else
-        {
-            rb.velocity = new Vector2(0,rb.velocity.y);
+            FindObjectOfType<AudioManager>().Play("Jump");
+            rb.velocity = new Vector2(rb.velocity.x, jumpSpeed);
         }
 
+        if (rb.velocity.y < 0)
+        {
+            rb.velocity += Vector2.up * Physics2D.gravity.y * (fallMultiplier) * Time.deltaTime; 
+        }
 
-        // Jumping 
         // Checks if player is grounded 
         if (Physics2D.Linecast(transform.position, groundCheck.position, 1 << LayerMask.NameToLayer("Ground"))
         || Physics2D.Linecast(transform.position, groundCheckL.position, 1 << LayerMask.NameToLayer("Ground"))
@@ -101,7 +101,7 @@ public class Player : MonoBehaviour
         //check if tag is enemy
         if (col.gameObject.CompareTag("Obstacle"))
         {
-            //FindObjectOfType<AudioManager>().Play("Hit");
+            FindObjectOfType<AudioManager>().Play("Hit");
             //change player color to red
             gameObject.GetComponent<SpriteRenderer>().color = Color.red;
             //return player color to white after .3 seconds

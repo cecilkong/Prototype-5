@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlatformScroll : MonoBehaviour
+public class CameraMovement : MonoBehaviour
 {
+    [SerializeField] private float cameraSpeed;
     // Start is called before the first frame update
     void Start()
     {
@@ -13,6 +14,6 @@ public class PlatformScroll : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        transform.position += new Vector3(cameraSpeed * Time.deltaTime, 0, 0);
     }
 }

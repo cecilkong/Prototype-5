@@ -1,0 +1,67 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &285168082200769435
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 285168082200769432}
+  - component: {fileID: 285168082200769433}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &285168082200769432
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 285168082200769435}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 283.0404, y: 212.82549, z: -2.372463}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &285168082200769433
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 285168082200769435}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ef019a0c181c4d31b686b173f08d5bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sounds:
+  - name: Background
+    clip: {fileID: 8300000, guid: b5a16fcb1c02940edb11dcfe4babe131, type: 3}
+    volume: 0.31
+    source: {fileID: 0}
+    loop: 1
+  - name: Click
+    clip: {fileID: 8300000, guid: 88231d9fb4e2f4ba8a90215ccff58cf9, type: 3}
+    volume: 0.57
+    source: {fileID: 0}
+    loop: 0
+  - name: LevelComplete
+    clip: {fileID: 8300000, guid: 8e003b1a782044c2fb1cce293cf54a4e, type: 3}
+    volume: 0.44
+    source: {fileID: 0}
+    loop: 0
+  - name: Jump
+    clip: {fileID: 8300000, guid: 8e003b1a782044c2fb1cce293cf54a4e, type: 3}
+    volume: 0.43
+    source: {fileID: 0}
+    loop: 0
