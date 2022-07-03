@@ -22,19 +22,44 @@ public class Player : MonoBehaviour
     private float jumpBufferTime = 0.05f;
     private float jumpBufferCounter;
 
+    [SerializeField] private float dashSpeed = 2f;
+    private bool canDash;
+    private bool isDashing;
+    [SerializeField] private float dashTime = 0.3f;
+    [SerializeField] private float dashCooldown = 0.5f;
+    
+
     void Awake()
     {
+        canDash = true;
+        isDashing = false;
         rb = GetComponent<Rigidbody2D>();
     }
 
     //Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
         // Left/Right Movement
-        rb.velocity = new Vector2(runSpeed, rb.velocity.y);
-       
+        rb.velocity = new Vector2(runSpeed * dashSpeed, rb.velocity.y);
+        
+        // Dashing
+        if ((Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D)) && canDash)
+        {
+            // FindObjectOfType<AudioManager>().Play("Dash");
+            Debug.Log("dashed");
+            StartCoroutine(Dash());
+        }
+    }
+
+    void FixedUpdate()
+    {
+        // if (isDashing)
+        // {
+        //     return;
+        // }
+
         // Jumping
-        if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
+        if ((Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W)) && isGrounded)
         {
             FindObjectOfType<AudioManager>().Play("Jump");
             rb.velocity = new Vector2(rb.velocity.x, jumpSpeed);
@@ -50,6 +75,7 @@ public class Player : MonoBehaviour
         || Physics2D.Linecast(transform.position, groundCheckL.position, 1 << LayerMask.NameToLayer("Ground"))
         || Physics2D.Linecast(transform.position, groundCheckR.position, 1 << LayerMask.NameToLayer("Ground")))
         {
+            // Debug.Log("GROUNDED");
             isGrounded = true;
         }
         else
@@ -85,14 +111,13 @@ public class Player : MonoBehaviour
             jumpBufferCounter = 0f;
         }
     }
-    
-    
-    private void OnCollisionEnter2D(Collision2D col)
+    void OnCollisionEnter2D(Collision2D col)
     {
+        // Debug.Log("COLLISION CALL");
         //check if tag is enemy
-        if (col.gameObject.CompareTag("Obstacle"))
+        if (col.gameObject.CompareTag("Obstacle") || col.gameObject.tag == "Obstacle")
         {
-            FindObjectOfType<AudioManager>().Play("Hit");
+            // FindObjectOfType<AudioManager>().Play("Hit");
             
             //change player color to red
             gameObject.GetComponent<SpriteRenderer>().color = Color.red;
@@ -102,7 +127,42 @@ public class Player : MonoBehaviour
             Debug.Log("hit obstacle");
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
+        
+        if (col.gameObject.tag == "Breakable" && isDashing)
+        {
+            // FindObjectOfType<AudioManager>().Play("Hit");
+            Debug.Log("break!!");
+            col.gameObject.SetActive(false);
+        }
     }
+
+    void OnCollisionStay2D(Collision2D col)
+    {
+        if (col.gameObject.tag == "Breakable" && isDashing)
+        {
+            // FindObjectOfType<AudioManager>().Play("Hit");
+            Debug.Log("break!!");
+            col.gameObject.SetActive(false);
+        }
+    }
+
+    private IEnumerator Dash()
+    {
+        canDash = false;
+        isDashing = true;
+        float originalGravity = rb.gravityScale;
+        Debug.Log(originalGravity);
+        rb.gravityScale = 0f;
+        dashSpeed = 2f;
+        rb.velocity = new Vector2(transform.localScale.x * dashSpeed, rb.velocity.y);
+        yield return new WaitForSeconds(dashTime);
+        dashSpeed = 1f;
+        rb.gravityScale = originalGravity;
+        yield return new WaitForSeconds(dashCooldown);
+        canDash = true;
+        isDashing = false;
+    }
+    
     
     void returnToWhite()
     {

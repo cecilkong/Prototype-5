@@ -13,8 +13,7 @@ public class NextLevel : MonoBehaviour
         if (triggerInfo.tag == "Player")
         {
             debuffsScreen.SetActive(true);
-            Time.timeScale = 0f; 
-            // LoadNextLevel();
+            Time.timeScale = 0f;
         }
     }
 
@@ -22,7 +21,7 @@ public class NextLevel : MonoBehaviour
     public void LoadNextLevel()
     {
         Time.timeScale = 1f;
-        if (SceneManager.GetActiveScene().buildIndex < 2)
+        if (SceneManager.GetActiveScene().buildIndex < 3)
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
