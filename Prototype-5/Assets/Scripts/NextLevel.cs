@@ -6,27 +6,22 @@ using UnityEngine.SceneManagement;
 
 public class NextLevel : MonoBehaviour
 {
-
+    public GameObject debuffsScreen;
     void OnTriggerEnter2D(Collider2D triggerInfo)
     {
         FindObjectOfType<AudioManager>().Play("LevelComplete");
         if (triggerInfo.tag == "Player")
         {
-            // StartCoroutine(LoadNextLevel());
-            LoadNextLevel();
+            debuffsScreen.SetActive(true);
+            Time.timeScale = 0f; 
+            // LoadNextLevel();
         }
     }
 
-    
-    // IEnumerator LoadNextLevel()
+
     public void LoadNextLevel()
     {
-        // StartCoroutine(Player.Instance.Finish(transform.position));
-        // yield return new WaitForSeconds(1);
-        // SceneTransition.Instance.Fade();
-        // yield return new WaitForSeconds(1);
- 
-        
+        Time.timeScale = 1f;
         if (SceneManager.GetActiveScene().buildIndex < 2)
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);

@@ -9,7 +9,7 @@ public class MenuNav : MonoBehaviour
 {
     [SerializeField] private GameObject pauseScreen;
     public GameObject musicPlayer;
-    
+
     void Start()
     {
         //DontDestroyOnLoad(musicPlayer);

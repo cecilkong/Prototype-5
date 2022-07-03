@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -20,17 +21,6 @@ public class Player : MonoBehaviour
     [SerializeField] private float fallMultiplier = 2f;
     private float jumpBufferTime = 0.05f;
     private float jumpBufferCounter;
-
-    //private GameMaster gm;
-
-    // Start is called before the first frame update
-
-    // void Start()
-    // {
-    //     gm = GameObject.FindGameObjectWithTag("GM").GetComponent<GameMaster>();
-    //     transform.position = gm.lastCheckPointPos;
-    // }
-
 
     void Awake()
     {
@@ -96,27 +86,21 @@ public class Player : MonoBehaviour
         }
     }
     
+    
     private void OnCollisionEnter2D(Collision2D col)
     {
         //check if tag is enemy
         if (col.gameObject.CompareTag("Obstacle"))
         {
             FindObjectOfType<AudioManager>().Play("Hit");
+            
             //change player color to red
             gameObject.GetComponent<SpriteRenderer>().color = Color.red;
             //return player color to white after .3 seconds
             Invoke("returnToWhite", 0.1f);
-            Debug.Log("hit obstacle");
-            // if(health <= 0) //health is negative or 0
-            // {
-            //     //kill player
-            //     playerDie = true;
-            //     Time.timeScale = 0f;
-            //     gameObject.SetActive(false);
-            //     //SceneManager.LoadScene("Lose");
-            // }
-            //health--;
             
+            Debug.Log("hit obstacle");
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
     }
     
